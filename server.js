@@ -12,7 +12,7 @@ const rateLimit = require('express-rate-limit');
 const hpp = require('hpp');
 const cors = require('cors');
 
-process.on('uncaughtException', err => {
+process.on('uncaughtException', (err) => {
   // eslint-disable-next-line no-console
   console.log('UNCAUGHT EXCEPTION! Shutting down...'.red.bold);
   // eslint-disable-next-line no-console
@@ -59,15 +59,7 @@ app.use(mongoSanitize());
 // Set security headers
 app.use(helmet());
 
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      // defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      scriptSrc: ["'self'", "'unsafe-inline'"]
-    }
-  })
-);
+app.use(helmet.contentSecurityPolicy());
 
 // Prevent XSS attacks
 app.use(xss());
@@ -75,7 +67,7 @@ app.use(xss());
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 mins
-  max: 100
+  max: 100,
 });
 app.use(limiter);
 
@@ -98,7 +90,7 @@ app.all('*', (req, res, next) => {
 
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 const server = app.listen(PORT, () => {
   // eslint-disable-next-line no-console
@@ -108,7 +100,7 @@ const server = app.listen(PORT, () => {
 });
 
 // Handle unhandled promise rejections
-process.on('unhandledRejection', err => {
+process.on('unhandledRejection', (err) => {
   // eslint-disable-next-line no-console
   console.log('UNHANDLED REJECTION! Shutting down...'.red.bold);
   // eslint-disable-next-line no-console

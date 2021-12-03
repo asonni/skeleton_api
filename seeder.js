@@ -13,12 +13,7 @@ colors.enable();
 const User = require('./models/User');
 
 // Connect to DB
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-  useUnifiedTopology: true
-});
+mongoose.connect(process.env.MONGO_URI);
 
 // Read JSON files
 const users = JSON.parse(
